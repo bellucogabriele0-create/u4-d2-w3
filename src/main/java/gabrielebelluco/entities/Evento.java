@@ -28,7 +28,7 @@ public class Evento {
     private String descrizione;
     @Column(name = "tipoEvento", nullable = false)
     @Enumerated(EnumType.STRING) // gli enum vengono convertiti in smallint ma a noi serve la stringa
-    private String tipoEvento;
+    private tipoEvento tipoEvento;
 
     @Column(name = "data_evento", nullable = false)
     private LocalDate getDataEvento() {
