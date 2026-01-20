@@ -10,7 +10,7 @@ public class Application {
     // senza di essi non si collega al DB come un app normale senza DB. aggiungendo questo:
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("u4d2w3");
     // una volta inserito se si avvia il risultato sarà un'errore perchè il server non esiste,
-    // quindi ora si va a crearlo in pgAdmin Databases>tasto destro> create> database> u4-d1-w3 > save
+    // quindi ora si va a crearlo in pgAdmin Databases>tasto destro> create> database> u4-d1-w3 > save.
 
 
     public static void main(String[] args) {
