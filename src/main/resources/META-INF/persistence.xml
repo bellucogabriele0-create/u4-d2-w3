@@ -8,6 +8,7 @@
         <!-- all'interno della unit andremmo a inserire l'elenco delle
         classi e le properties con le loro property (K V)  -->
         <!--dafare aggiungere elenco entities-->
+        <class>gabrielebelluco.entities.Evento</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/u4d2w3"/>
             <!--  u4-d1-w3 è il nome del DB se questo non è già stato creato in PgAdmin avrò un errore-->
