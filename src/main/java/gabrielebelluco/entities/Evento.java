@@ -22,7 +22,7 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Annotazione OPZIONALE però molto consigliata. auto crea i bigserial
     private long id;
-    @Column(name = "titolo", nullable = false)
+    @Column(name = "titolo", nullable = false) // possiamo aggiungere anche la lunghezza con length= 30
     private String titolo;
     @Column(name = "descrizione", nullable = false)
     private String descrizione;
@@ -30,9 +30,67 @@ public class Evento {
     @Enumerated(EnumType.STRING) // gli enum vengono convertiti in smallint ma a noi serve la stringa
     private tipoEvento tipoEvento;
 
+    public Evento(long id, String titolo, String descrizione, tipoEvento tipoEvento) {
+        this.id = id;
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.tipoEvento = tipoEvento;
+
+    }
+
+    public Evento() { // avere un costruttore vuoto è obbligatorio per tutte le entities avere un costruttore vuoto!
+        // Viene usato da Jpa per costruire degli oggetti quando leggeremo delle righe dalle tabelle
+    }
+
     @Column(name = "data_evento", nullable = false)
     private LocalDate getDataEvento() {
         return dataEvento;
     }
 
+    public void setDataEvento(LocalDate dataEvento) {
+        this.dataEvento = dataEvento;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public tipoEvento getTipoEvento() {
+        return tipoEvento;
+    }
+
+    public void setTipoEvento(tipoEvento tipoEvento) {
+        this.tipoEvento = tipoEvento;
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "dataEvento=" + dataEvento +
+                ", id=" + id +
+                ", titolo='" + titolo + '\'' +
+                ", descrizione='" + descrizione + '\'' +
+                ", tipoEvento=" + tipoEvento +
+                '}';
+    }
 }

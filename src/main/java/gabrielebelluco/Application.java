@@ -1,5 +1,6 @@
 package gabrielebelluco;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
@@ -13,9 +14,16 @@ public class Application {
     // quindi ora si va a crearlo in pgAdmin Databases>tasto destro> create> database> u4d2w3 > save.
     //a questo punto andiamo a creare le entities
 
-
+    // una volta create le entities, con i vari metodi e i due costruttori torniamo qua in main
+    // e  andiamo ad aggiungere un punto di mezzo tra il file modificato e il file in modifica
+    // grazie alle entityManager dentro il main
     public static void main(String[] args) {
-
-        System.out.println("Hello World!");
+        EntityManager entityManager = emf.createEntityManager(); // questo è l'oggetto che gestisce tutte le
+        // interazioni con il DB è buona prassi chiudere le risorse come scanner, entitymanager e EntityManagerFactory
+        // e sarebbe opportuno aggiungere un metodo save() che serve per i controlli da fare aggiunga dati a questo
+        // evento, che faccia il persist faccia il commit facci un S.o.p di avvenuto successo, mi
+        // gestisca le eccezioni ovvero il DAO per fare ciò creeremo la cartella DAO con il file EventoDAO
+        entityManager.close();
+        emf.close();
     }
 }
