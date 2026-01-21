@@ -2,6 +2,7 @@ package gabrielebelluco.dao;
 
 import gabrielebelluco.entities.Evento;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 public class EventoDAO {
     // (Data Access Object) questo serve per ospittare tutti i metodi comodi come salvare o leggere dei record, richiedono
@@ -22,15 +23,15 @@ public class EventoDAO {
         // fare il commit l'unico problema è che il commit non lo fa l'EntityManager ma
         // viene fatto dalla transazione.
         // 1)dunque si va a creare una nuova transazione,
-        // EntityTransaction transaction = em.getTransaction();
+        EntityTransaction transaction = entityManager.getTransaction();
         // 2) la facciamo partire
-        // transaction.begin();
+        transaction.begin();
         //3) aggiungiamo il new Evento al PersistenceContext in quanto esso è nuovo e
         // non ancora Managed. Lo possiamo fare tramite metodo .persist()dell'EntityManager (a questo
         // punto l'oggetto non è ancora parte del DB però)
-        // em.persist(object);
+        entityManager.persist(newEvento);
         //4) successivamente facciamo il commit che vuol dire "luce verde" manda tutto al DB e lui si occuperà di fare l'inserzione
-        // transaction.commit();
+        transaction.commit();
         // 5) volendo poi si può fare il S.o.p
         // OK let's go in questo momento però
 
