@@ -8,21 +8,21 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class Application {
-    // (A)
+    // (A)##################################################################
     // dopo aver aggiunto le dependencies in pom.xml e le properties in persistence.xml
-    // (B)
+    // (B)##################################################################
     // aggiungiamo nel main una entity manager factory
     // cioè un oggetto che creerà gli entity manager che mi permetteranno di interagire con DB
     // senza di essi non si collega al DB come un app normale senza DB. aggiungendo questo:
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("u4d2w3");
     // una volta inserito se si avvia il risultato sarà un'errore perchè il server non esiste,
     // quindi ora si va a crearlo in pgAdmin
-    // (C)
+    // (C)##################################################################
     // Databases>tasto destro> create> database> u4d2w3 > save.
-    //a questo punto andiamo a creare le entities (E)
+    //a questo punto andiamo a creare le entities (E)##################################################################
     // dopo averlo aggiunto aggiungiamo anche ed.save(marragheddon) per salvare l'evento
 
-    //(F)
+    //(F)##################################################################
     // una volta create le entities, con i vari metodi e i due costruttori torniamo qua in main
     // e  andiamo ad aggiungere un punto di mezzo tra il file modificato e il file in modifica
     // grazie alle entityManager dentro il main
@@ -34,8 +34,12 @@ public class Application {
         // gestisca le eccezioni ovvero il DAO per fare ciò creeremo la cartella DAO con il file EventoDAO
         EventoDAO ed = new EventoDAO(entityManager);//(G.2) parametro la entityManager
         Evento marragheddon = new Evento("marragheddon", "bello", tipoEvento.PUBBLICO);
-        ed.save(marragheddon);
-        //(G)
+        Evento redValley = new Evento("red valley", "non perderlo", tipoEvento.PRIVATO);
+        Evento namless = new Evento("namless", "questo brutto ", tipoEvento.PUBBLICO);
+        // ed.save(marragheddon); // questi una volta utilizzati correttamente sarebbe meglio eliminarli/commentarli per
+        // ed.save(namless);     // evitare che vengano salvati elementi doppi nella tabella
+        // ed.save(redValley);
+        //(G)##################################################################
         // a questo punto però abbiamo il factory nel main e noi lo dobbiamo implementare anche nel DAO
         // e nell'oggetto DAO creato qua andiamo ad aggiungere nel parametro la entityManager
         entityManager.close();

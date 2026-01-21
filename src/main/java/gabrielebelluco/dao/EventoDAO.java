@@ -8,7 +8,7 @@ public class EventoDAO {
     // (Data Access Object) questo serve per ospittare tutti i metodi comodi come salvare o leggere dei record, richiedono
     // l'uso dell'EntityManager con una certa complessità. il DAO quindi si occupa di nascondere la complessita fornendo a
     // chi ne avrà bisogno dei metodi semplici. inoltre lo dobbiamo importare nel mai con EventoDAO ed = new EventoDAO()
-    //(G)
+    //(G)##################################################################
     private EntityManager entityManager;
 
     public EventoDAO(EntityManager entityManager) {
@@ -22,6 +22,7 @@ public class EventoDAO {
         // diventare menaged deve fare un persist e dopo questi due passaggi possiamo
         // fare il commit l'unico problema è che il commit non lo fa l'EntityManager ma
         // viene fatto dalla transazione.
+        //(H)##################################################################
         // 1)dunque si va a creare una nuova transazione,
         EntityTransaction transaction = entityManager.getTransaction();
         // 2) la facciamo partire
@@ -33,10 +34,12 @@ public class EventoDAO {
         //4) successivamente facciamo il commit che vuol dire "luce verde" manda tutto al DB e lui si occuperà di fare l'inserzione
         transaction.commit();
         // 5) volendo poi si può fare il S.o.p
-        // OK let's go in questo momento però
+        System.out.println("l'Evento " + newEvento.getTitolo() + " lo hai salvato correttamente");
+
 
     }
-
+    // (I)###################################################################################
+    // successivamente al metodo save andiamo a fare il metodo findById per questo esiste già un metodo .find
     // public Evento findById(long studentId) {
     // che dato un'id ci darà un evento
 
