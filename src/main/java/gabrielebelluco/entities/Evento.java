@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-//qua andiamo a creare le entities con i rispettivi @Annotazione come:
+// (D)
+// qua andiamo a creare le entities con i rispettivi @Annotazione come:
 // @Entity: marchiamo quella classe come "speciale" cioè una tabella che deve essere mappata come tabella
 //         perchè non tutte le classi diventeranno tabelle
 // @Table: per specificare il nome della tabella omettibile, se omessa prenderà il nome della classe
 // @Column: serve per specificare e customizzare gli attributi aggiungere vincoli
 // @Id: per identificare la chiave primaria
 // @Enumerated: Indica come deve essere mappato un campo corrispondente a una proprietà Enum
+// (E)
 // quindi prima di iniziare andiamo a aggiungere in persistence.xml le entities
 @Entity
 //questa è obbligatoria. ci serve per definire che dovrà essere mappata in una specifica tabella nel DB, Hibernate se ne occuperà in automati. se è già presente proverà a modificarla secondo quanto trovato in questa classe se usiamo l'impostazione <property name="hibernate.hbm2ddl.auto" value="update"/> in Persistence.xml
@@ -30,8 +32,8 @@ public class Evento {
     @Enumerated(EnumType.STRING) // gli enum vengono convertiti in smallint ma a noi serve la stringa
     private tipoEvento tipoEvento;
 
-    public Evento(long id, String titolo, String descrizione, tipoEvento tipoEvento) {
-        this.id = id;
+    public Evento(String titolo, String descrizione, tipoEvento tipoEvento) {
+
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.tipoEvento = tipoEvento;
