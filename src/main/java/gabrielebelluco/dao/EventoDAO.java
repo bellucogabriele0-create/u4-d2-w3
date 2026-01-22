@@ -56,8 +56,31 @@ public class EventoDAO {
         return found;
     }
 
-    // public void findByIdAndDelete(long studentId) {
-    // che dato un'id ci darà un evento e lo eliminerà
+    //(K)##################################################################
+    public void findByIdAndDelete(long eventoId) {
+        // che dato un'id ci darà un evento e lo eliminerà e lo dividiamo a step così
+        // 1) cerco l'evento tramite ID nel DB
+        //dato che il metodo found che ho fatto in findById mi fa la stessa operazione riutilizzo quella
+        Evento found = this.findById(eventoId);
 
-    // }
+        //2) chiediamo all'EntytiManager di creare una nuova transazione
+        // dato che la transazione l'abbiamo già fatta nel save posso copiarla dalla riga 28
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        //3) facciamo partire la transazione
+        // dato che l'abbiamo già fatta partire nel save la posso copiare dalla riga 30
+        transaction.begin();
+
+        //4) rimuoviamo dal persistence Context l'oggetto in questione tramite metodo .remove() dell'EntytiManager
+        //(l'oggetto in questo momento non è ancora stato eliminato dal DB) questa è la parte nuova al posto del persist farò remove
+        entityManager.remove(found);
+
+        //5) dopo facciamo il commit che serve per rendere operativa la transazione quindi l'eliminazione
+        // dato che l'abbiamo già commitato nel save la posso copiare dalla riga 36
+        transaction.commit();
+
+        //6) S.o.p per stampare l'eliminazione
+        System.out.println("l'evento con id: " + eventoId + " è stato individuato e affondato correttamente ");
+
+    }
 }

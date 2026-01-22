@@ -3,6 +3,7 @@ package gabrielebelluco;
 import gabrielebelluco.dao.EventoDAO;
 import gabrielebelluco.entities.Evento;
 import gabrielebelluco.entities.tipoEvento;
+import gabrielebelluco.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -36,12 +37,34 @@ public class Application {
         Evento marragheddon = new Evento("marragheddon", "bello", tipoEvento.PUBBLICO);
         Evento redValley = new Evento("red valley", "non perderlo", tipoEvento.PRIVATO);
         Evento namless = new Evento("namless", "questo brutto ", tipoEvento.PUBBLICO);
-        // ed.save(marragheddon); // questi una volta utilizzati correttamente sarebbe meglio eliminarli/commentarli per
-        // ed.save(namless);     // evitare che vengano salvati elementi doppi nella tabella
-        // ed.save(redValley);
+        Evento milanoconcerto = new Evento("milanoconcerto", "questo pessimo ", tipoEvento.PUBBLICO);
+        //ed.save(marragheddon); // questi una volta utilizzati correttamente sarebbe meglio eliminarli/commentarli per
+        //ed.save(namless);     // evitare che vengano salvati elementi doppi nella tabella
+        //ed.save(redValley);
+        ed.save(milanoconcerto);
         //(G)##################################################################
         // a questo punto però abbiamo il factory nel main e noi lo dobbiamo implementare anche nel DAO
         // e nell'oggetto DAO creato qua andiamo ad aggiungere nel parametro la entityManager
+        //(J.2)##################################################################
+        // successivamente alla creazione del findById in EventoDAO lo richiamiamo qua nel main che ci
+        // dovrebbe tornare MarragheddonFromDB in un try catch per evitare errori semplicemente con:
+        try {
+            Evento MarragheddonFromDB = ed.findById(4);
+            System.out.println(MarragheddonFromDB);
+        } catch (NotFoundException exception) {
+            System.out.println(exception.getMessage());
+            // successivamente possiamo impostare anche la findByIdAndDelete in EventoDAO
+            //(K)##################################################################
+
+        }
+        //(L)##################################################################
+        // qua iplementiamo il findByIdAndDelete in un try catch in modo da evitare errori
+        try {
+            ed.findByIdAndDelete(4);
+        } catch (NotFoundException exception) {
+            System.out.println(exception.getMessage());
+        }
+
         entityManager.close();
         emf.close();
     }
