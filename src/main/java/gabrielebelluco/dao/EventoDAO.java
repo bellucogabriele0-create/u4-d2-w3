@@ -1,6 +1,7 @@
 package gabrielebelluco.dao;
 
 import gabrielebelluco.entities.Evento;
+import gabrielebelluco.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
@@ -38,12 +39,22 @@ public class EventoDAO {
 
 
     }
+
     // (I)###################################################################################
     // successivamente al metodo save andiamo a fare il metodo findById per questo esiste già un metodo .find
-    // public Evento findById(long studentId) {
-    // che dato un'id ci darà un evento
+    // che prevede due parametri la classe Entyti nel nostro ca so Evento e l'Id da passargli in cambio ci
+    // darà l'oggetto se ce lo trova altrimenti ci tornerà null, quindi una best prac. sarebbe gestire le
+    // eccezionicon un custom
+    public Evento findById(long EventoId) {
 
-    // }
+        // che dato un'id ci darà un evento
+        Evento found = entityManager.find(Evento.class, EventoId);
+        // se non lo trova gestisce eccezione custom che andiamo a creare ora
+        // (J)###################################################################################
+        if (found == null) throw new NotFoundException(EventoId);
+        // altrimenti ritorna l'evento cercato
+        return found;
+    }
 
     // public void findByIdAndDelete(long studentId) {
     // che dato un'id ci darà un evento e lo eliminerà
