@@ -24,14 +24,14 @@ public class Evento {
     private long id;
     @Column(name = "titolo", nullable = false) // possiamo aggiungere anche la lunghezza con length= 30
     private String titolo;
-    private LocalDate dataEvento;
     @Column(name = "descrizione", nullable = false)
     private String descrizione;
     @Column(name = "tipoEvento", nullable = false)
     @Enumerated(EnumType.STRING) // gli enum vengono convertiti in smallint ma a noi serve la stringa
     private tipoEvento tipoEvento;
     private int numeroMassimoPartecipanti;
-
+    @Column(name = "data_evento", nullable = false)
+    private LocalDate dataEvento;
 
     public Evento(String titolo, LocalDate dataEvento, String descrizione, tipoEvento tipoEvento) {
 
@@ -44,11 +44,6 @@ public class Evento {
 
     public Evento() { // avere un costruttore vuoto è obbligatorio per tutte le entities avere un costruttore vuoto!
         // Viene usato da Jpa per costruire degli oggetti quando leggeremo delle righe dalle tabelle
-    }
-
-    @Column(name = "data_evento", nullable = false)
-    private LocalDate getDataEvento() {
-        return dataEvento;
     }
 
     public void setDataEvento(LocalDate dataEvento) {

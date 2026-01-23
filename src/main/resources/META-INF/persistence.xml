@@ -10,6 +10,9 @@
         <!--dafare aggiungere elenco entities-->
         <!-- (E)-->
         <class>gabrielebelluco.entities.Evento</class>
+        <class>gabrielebelluco.entities.Partecipazione</class>
+        <class>gabrielebelluco.entities.Location</class>
+        <class>gabrielebelluco.entities.Persona</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/u4d3w3"/>
             <!--  u4-d1-w3 è il nome del DB se questo non è già stato creato in PgAdmin avrò un errore-->

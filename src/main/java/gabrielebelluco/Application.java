@@ -8,6 +8,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.time.LocalDate;
+
 public class Application {
     // (A)##################################################################
     // dopo aver aggiunto le dependencies in pom.xml e le properties in persistence.xml
@@ -34,10 +36,10 @@ public class Application {
         // evento, che faccia il persist faccia il commit facci un S.o.p di avvenuto successo, mi
         // gestisca le eccezioni ovvero il DAO per fare ciò creeremo la cartella DAO con il file EventoDAO
         EventoDAO ed = new EventoDAO(entityManager);//(G.2) parametro la entityManager
-        Evento marragheddon = new Evento("marragheddon", "bello", tipoEvento.PUBBLICO);
-        Evento redValley = new Evento("red valley", "non perderlo", tipoEvento.PRIVATO);
-        Evento namless = new Evento("namless", "questo brutto ", tipoEvento.PUBBLICO);
-        Evento milanoconcerto = new Evento("milanoconcerto", "questo pessimo ", tipoEvento.PUBBLICO);
+        Evento marragheddon = new Evento("marragheddon", LocalDate.of(2023, 7, 10), "bello", tipoEvento.PUBBLICO);
+        Evento redValley = new Evento("red valley", LocalDate.of(2024, 8, 11), "non perderlo", tipoEvento.PRIVATO);
+        Evento namless = new Evento("namless", LocalDate.of(2022, 6, 9), "questo brutto ", tipoEvento.PUBBLICO);
+        Evento milanoconcerto = new Evento("milanoconcerto", LocalDate.of(2020, 1, 13), "questo pessimo ", tipoEvento.PUBBLICO);
         //ed.save(marragheddon); // questi una volta utilizzati correttamente sarebbe meglio eliminarli/commentarli per
         //ed.save(namless);     // evitare che vengano salvati elementi doppi nella tabella
         //ed.save(redValley);
@@ -97,7 +99,21 @@ public class Application {
 // molto utile per Java e JPA perchè serve per fare in modo che se devo recuperare i dati dell passport di una persona con il getter dentro Person riesco a
 // recuperare anche il passport di quella persona, dunque se volessimo questo "plus"possiamo utilizzare la bidirezionalità Person ↔ Passport e Passport ↔
 // Person ma solo Passport avrà la colonna FK [@JoinColumn è per la personalizzazione della colonna utile anche per capire meglio dove sta la colonna]
-// una volta creata la il secondo file dovremmo all'interno 
+// una volta creata il secondo file dovremmo all'interno di esso aggiungere il collegamento tra le due, questo si fa con la famosa FOREIGN KEY con
+// prima di tutto il riferimento all'altra ENTITA' come abbiamo visto a lezione(private User owner) a questo punto aggiungiamo anche la relazione @OneToOne oltre
+// a cio un'altra cosa che possiamo fare @JoinColumn per la customizzazione dell'FK tipo:@JoinColumn (name = user_id unique = true, nullable = false). Adesso mettiamo i
+//due costruttorri e in quello pieno non metterò tutto e il toStrng() ma non dimentichiamo di aggiungere le entities nel persistence con
+// <class>gabrielebelluco.entities.Person</class> <class>gabrielebelluco.entities.Location</class> <class>gabrielebelluco.entities.Partecipazione</class> <class>gabrielebelluco.entities.Evento</class>
+// dopo l'inserimento delle entities c'è tutto per un collegamento UNIDIREZIONALE di successo ma se lo volessimo bidirezionale basterà aggiungere in User un riferimento a
+// Document così : @OneToOne(mappedBy == "owner" [che è il nome dell'attributo]) private Document document. a questo punto ho la BIDIREZIONALITA' con il vantaggio di avere
+// un getter in più per i dati del document con un metodo del tipo: utenteFromDB.getDocument() successivamente impostiamo tutti i DAO. una volta impostati i DAO
+// possiamo creare gli oggetti di questi nell'Application con una cosa del genere PersonaDAO perd = new PersonaDao(entityManager).
+// poi Persona luca = new Persona ("Luca","Gatto",LuGa@gmail.com, LocalDate.of(2001, 01, 01), uomo) e aggiungiamo il save perd.savePersona(luca)
+// però ora devo creare una location quindi creiamo un nuovo oggetto Location milano = new Location(marragheddon, milano) però prima bisogna fare un findById per evitare
+// bug particolari con la creazione di id e persone doppie, dunque creerò Person lucaFromDB = perd.findById("QUA COPI E INCOLLI L'ID") poi dopo Location milano = new Location(marragheddon, milano)
+// e in fine ld.saveLocation(milano) e a questo punto funzionerà perchè questo servirà per cercare nel db l'id lo ha messo nel persistence contest poi lo
+// abbiamo passato al costruttore del nuovo documento(lucaFromDB) e farà il save
 // One-to-many
 // many-to-many
 // Uno degli errori più classici è quello di fare il ragionamento solo da un lato ma bisogna vedere entrambi i lati se hanno relazioni nella one to one (a-b e b-a)
+//EventoDAO ed = new EventoDao(entityManager) PartecipazioneDAO pard = new PartecipazioneDao(entityManager)
