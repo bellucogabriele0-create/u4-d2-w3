@@ -145,3 +145,23 @@ public class Application {
 // troviamo se io dovessi filtrare per una colonna che hanno entrambe in comune questa sarebbe un'operazione molto costosa e difficile da fare perchè
 // dovrebbe prendere entrambe le tabelle filtrarle e unirle attraverso le query e oltre tutto un'altro preblema è che non si possono fare relazioni con essa
 //
+// JPQL sono delle query che vengono fatte molto simili alle sql ma hanno delle diferenze esse possono essere named query o dynamic query:
+// NAMED QUERY: sono delle query che descrivo su delle entità le do un nome, per questo si chiama named, e poi la posso riutilizzare tutte le volte che
+// voglio come una sorta di metodo per query che si utilizzano molto spesso
+// DYNAMIC QUERY: al contrario sono delle query che si fanno una volta sola
+//
+// entrambe possono avere anche un controllo sui tipi che è consigliato.
+// Quindi nel dao adesso posso avere un metodo che mi ritorna tutti gli animali con la DYNAMIC QUERY:
+//public List<Animal>
+// TypedQuery<Animal> query = em.createQuery("SELECT a FROM Animal a", Animal.class);
+// return query.getResultList()
+// mentre con la NAMED QUERY:
+// avremo in animal sopra la classe
+// @NamedQuery(name = "findAllAnimals", query = "SELECT a FROM Animal a" )
+//
+// invece nel DAO
+//
+// public List<Animal>
+// TypedQuery<Animal> query = em.createQuery("findAllAnimals", Animal.class);
+// return query.getResultList()
+//
