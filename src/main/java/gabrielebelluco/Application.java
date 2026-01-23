@@ -97,7 +97,7 @@ public class Application {
 // molto utile per Java e JPA perchè serve per fare in modo che se devo recuperare i dati dell passport di una persona con il getter dentro Person riesco a
 // recuperare anche il passport di quella persona, dunque se volessimo questo "plus"possiamo utilizzare la bidirezionalità Person ↔ Passport e Passport ↔
 // Person ma solo Passport avrà la colonna FK [@JoinColumn è per la personalizzazione della colonna utile anche per capire meglio dove sta la colonna]
-//
+// una volta creata la il secondo file dovremmo all'interno 
 // One-to-many
 // many-to-many
 // Uno degli errori più classici è quello di fare il ragionamento solo da un lato ma bisogna vedere entrambi i lati se hanno relazioni nella one to one (a-b e b-a)

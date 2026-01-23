@@ -17,24 +17,26 @@ import java.time.LocalDate;
 @Entity
 //questa è obbligatoria. ci serve per definire che dovrà essere mappata in una specifica tabella nel DB, Hibernate se ne occuperà in automati. se è già presente proverà a modificarla secondo quanto trovato in questa classe se usiamo l'impostazione <property name="hibernate.hbm2ddl.auto" value="update"/> in Persistence.xml
 @Table(name = "evento") // non obbligatorio ma buona prassi
-
 public class Evento {
-    LocalDate dataEvento;
     @Id //obbligatoria. Dichiaro che questo attributo dovrà corrispondere alla colonna PRIMARY KEY della tabella Evento
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Annotazione OPZIONALE però molto consigliata. auto crea i bigserial
     private long id;
     @Column(name = "titolo", nullable = false) // possiamo aggiungere anche la lunghezza con length= 30
     private String titolo;
+    private LocalDate dataEvento;
     @Column(name = "descrizione", nullable = false)
     private String descrizione;
     @Column(name = "tipoEvento", nullable = false)
     @Enumerated(EnumType.STRING) // gli enum vengono convertiti in smallint ma a noi serve la stringa
     private tipoEvento tipoEvento;
+    private int numeroMassimoPartecipanti;
 
-    public Evento(String titolo, String descrizione, tipoEvento tipoEvento) {
+
+    public Evento(String titolo, LocalDate dataEvento, String descrizione, tipoEvento tipoEvento) {
 
         this.titolo = titolo;
+        this.dataEvento = dataEvento;
         this.descrizione = descrizione;
         this.tipoEvento = tipoEvento;
 
@@ -57,9 +59,6 @@ public class Evento {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getDescrizione() {
         return descrizione;
