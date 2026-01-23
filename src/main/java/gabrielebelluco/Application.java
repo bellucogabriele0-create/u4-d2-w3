@@ -112,8 +112,19 @@ public class Application {
 // però ora devo creare una location quindi creiamo un nuovo oggetto Location milano = new Location(marragheddon, milano) però prima bisogna fare un findById per evitare
 // bug particolari con la creazione di id e persone doppie, dunque creerò Person lucaFromDB = perd.findById("QUA COPI E INCOLLI L'ID") poi dopo Location milano = new Location(marragheddon, milano)
 // e in fine ld.saveLocation(milano) e a questo punto funzionerà perchè questo servirà per cercare nel db l'id lo ha messo nel persistence contest poi lo
-// abbiamo passato al costruttore del nuovo documento(lucaFromDB) e farà il save
-// One-to-many
-// many-to-many
+// abbiamo passato al costruttore del nuovo documento(lucaFromDB) e farà il save tutto ciò per evitare eccezioni indesiderate lo facciamo in un try catch, la bidirezionalità
+// ci sarebbe servita per utilizzare il getter anche di location, ma potremmo cadere in un stackoverflow dovuto dal toString per evitare questo quando stampiamo i dati della
+// persona non  stampiamo i dati della location quindi da persona andrò a eliminare la riga location
+// One-to-many: un dipendente appartiene a un reparto One, un reparto a tanti dipendenti Many, la differenza è che la chaive esterna può essere messa solo nel latto MANY
+// per facilitarci nel capire come mettere la @ManyToOne ci conviene leggere da sinistra verso destra e dall'alto verso il basso Many Persone to One location quindi la classe si scriverà
+// public class Persone {@ManyToOne private Location location;} se volessimo anche la bidirezionalità metteremo in Persone OneToMany Location {@ManyToOne private List<Persone> Persone = new ArrayList<>();}
+//però da una parte c'è una sola location e dall'altra ci sono più persone quindi non possiamo mettere solo una persona bensì dovremmo usare un'array per poterle utilizzare
+// many-to-many: questa ha la differenza che le chiavi esterne non possono essere messe ne a destra ne a sinistra quindi si crea la junction Table che serve per racogliere
+// le chiavi di studenti e corsi come abbiamo visto a lezione però non utilizzeremo una joinColumn bensì una joinTable perchè dovremmo creare una tabella al cui interno
+// di essa ci sarà una joinColumns e una inverseJoinColumns con un risultato del genere public class Student{@ManyToMany@JoinTable(joinColumns =@JoinColumn(name="student_id"), inverseJoinColumns = @JoinColumn(name="course_id"))private List<Course> courses = new ArrayList<>();
+//public class Course{@ManyToMany(mappedBy= "courses") e poi per entrambi ci saranno le liste private List<Student> students = new ArrayList<>();
+//
+//
+//
 // Uno degli errori più classici è quello di fare il ragionamento solo da un lato ma bisogna vedere entrambi i lati se hanno relazioni nella one to one (a-b e b-a)
 //EventoDAO ed = new EventoDao(entityManager) PartecipazioneDAO pard = new PartecipazioneDao(entityManager)
