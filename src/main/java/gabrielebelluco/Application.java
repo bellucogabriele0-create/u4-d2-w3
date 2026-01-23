@@ -87,6 +87,7 @@ public class Application {
 // ha più passaporti quindi bisogna guardarla da entrambe le parti Auto ↔ Numero di Telaio / Carta d’identità ↔ Cittadino / Contatore elettrico ↔ Abitazione
 // esistono due tipi principali Embedded che non useremo e le altre che useremo unidirezionali e bidirezionali, il concetto di
 // unidirezionali partendo da:
+//EventoDAO ed = new EventoDao(entityManager) PartecipazioneDAO pard = new PartecipazioneDao(entityManager)
 // Persone e Passport che sono due entità quindi due tabelle e qui si aprirà un bivio, non solo per le one to one ma, per tutte c'è questo conceto. quindi,
 // tornando all'esempio del passaporto e persona, una volta create le due tabelle io nella cartella passaporto voglio anche la chiave esterna per
 // definire la chiave esterna io dovrò andare amettere un riferimento ALL'ALTRA entità cioè un'attributo del tipo dell'altra entità (Private Person person[se
@@ -115,6 +116,7 @@ public class Application {
 // abbiamo passato al costruttore del nuovo documento(lucaFromDB) e farà il save tutto ciò per evitare eccezioni indesiderate lo facciamo in un try catch, la bidirezionalità
 // ci sarebbe servita per utilizzare il getter anche di location, ma potremmo cadere in un stackoverflow dovuto dal toString per evitare questo quando stampiamo i dati della
 // persona non  stampiamo i dati della location quindi da persona andrò a eliminare la riga location
+// Uno degli errori più classici è quello di fare il ragionamento solo da un lato ma bisogna vedere entrambi i lati se hanno relazioni nella one to one (a-b e b-a)
 // One-to-many: un dipendente appartiene a un reparto One, un reparto a tanti dipendenti Many, la differenza è che la chaive esterna può essere messa solo nel latto MANY
 // per facilitarci nel capire come mettere la @ManyToOne ci conviene leggere da sinistra verso destra e dall'alto verso il basso Many Persone to One location quindi la classe si scriverà
 // public class Persone {@ManyToOne private Location location;} se volessimo anche la bidirezionalità metteremo in Persone OneToMany Location {@ManyToOne private List<Persone> Persone = new ArrayList<>();}
@@ -123,8 +125,23 @@ public class Application {
 // le chiavi di studenti e corsi come abbiamo visto a lezione però non utilizzeremo una joinColumn bensì una joinTable perchè dovremmo creare una tabella al cui interno
 // di essa ci sarà una joinColumns e una inverseJoinColumns con un risultato del genere public class Student{@ManyToMany@JoinTable(joinColumns =@JoinColumn(name="student_id"), inverseJoinColumns = @JoinColumn(name="course_id"))private List<Course> courses = new ArrayList<>();
 //public class Course{@ManyToMany(mappedBy= "courses") e poi per entrambi ci saranno le liste private List<Student> students = new ArrayList<>();
+//(u4-d4-w3)###############################################################################################################################################################
+//questa lezione si concentra sul capire come gestire l'ereditarietà data che una tabella non può essere figlia di un'altra, può essere rapresentata in tre modi con Single table, joined e table per concrete class
+//SingleTable: è la più semplice da utilizzare vorra dire che tutti i padri e tutti i figli finiranno in un unica tabella il problema di essa è che è una scacchiera
+//verranno rapresentati tanti nulla perchè se da una classe ne estendo altr due con parametri molto differenti ciò che una ha l'altra avrà null, quindi questa è molto
+//utile se si hanno molti parametri in comune perchè molto più veloce. quando si utilizza questa strategia in'oltre si creerà una colonna di default chiamata dType
+//che contiene i nomi delle classi detta discriminante per capire "chi è cosa" @Inheritance (strategy = InheritanceType.SINGLE_TABLE)
+// per utilizzare questa metodologia andiamo a creare una entity per il padre animal e due per i figli cat e dog all'interno dei figli si faranno le classiche cose
+// come costruttori get set e toString, mentre ina application si creano gli oggetti per l'inserimento degli animali si salvano, si aggiunge l'emf, grazie al
+// polimorfismo possiamo fare un AnimalsDAO che ci consente di savare in application mentre nel file Animal abbiamo l'Inheritance  con la sua strategySINGLE_TABLE
+// e poi possiamo aggiungere anche il metodo findById.
+//JOINED: qua invece di avere una sola table le info saranno divise in più tabelle. nella @inheritance la stategy sarà = JOINED e verranno create una tabella per
+// il padre e più tabelle per i non comuni i figli, il PRO principale è che i null non ci saranno più, quindi tutto sarà più ordinato, però un CONTRO è che ci saranno
+// più join perchè se volessi recuperare i dati del padre e di un figlio devo fare dei join e anche qua abbiamo la dtype
+// per utilizzare questa metodologia andiamo possiamo sfruttare i passaggi fatti con la single table ma cambiando la strategy con JOINED inoltre per la parte di
+// findById potrei anche non raggionare in amniera polimorfica e crearmi un metodo per uno o l'altro figlio nel DAO
+// Table per concrete class:con questa viene creata una tabella per ogni classe concreta, e qui verranno create se un padre a due figli verranno create solo due
+// tabelle quelle concrete ovvero i figli e avremmo un risultato molto pulito ognuno ha le sue cose, senza problemi di null, senza join, però il CONTRO lo
+// troviamo se io dovessi filtrare per una colonna che hanno entrambe in comune questa sarebbe un'operazione molto costosa e difficile da fare perchè
+// dovrebbe prendere entrambe le tabelle filtrarle e unirle attraverso le query e oltre tutto un'altro preblema è che non si possono fare relazioni con essa
 //
-//
-//
-// Uno degli errori più classici è quello di fare il ragionamento solo da un lato ma bisogna vedere entrambi i lati se hanno relazioni nella one to one (a-b e b-a)
-//EventoDAO ed = new EventoDao(entityManager) PartecipazioneDAO pard = new PartecipazioneDao(entityManager)
