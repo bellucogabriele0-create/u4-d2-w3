@@ -165,3 +165,32 @@ public class Application {
 // TypedQuery<Animal> query = em.createQuery("findAllAnimals", Animal.class);
 // return query.getResultList()
 //
+// oltre alle operazioni di query le posso fare anche di UPDATE e di DELETE nel DAO
+// public void findAnimalsByNameAndUpdateName (String oldName, String newName) {
+//  EntityTransiction transiction = em.getTransiction();
+// transiction.begin();
+// Query query = em.createQuery ("UPDATE Animal a SET a.name = :newName WHERE a.name = :oldName")
+//query.setParameter("newName",newName);
+//query.setParameter("oldName",oldName);
+//int numModified = query.executeUpdate(); // ESEGUE UNA QUERY DI AGGIORNAMENTO DEL DB
+// transiction.commit();
+// S.o.p("ho aggiurnato " + numModified + "elementi");
+// }
+
+// e in APPLICATION
+// ad.findAnimalsByNameAndUpdateName("rex", "ringhio")
+
+// LA DELETE INVECE:
+//
+// public void findAnimalsByNameAndDelete (String name) {
+//  EntityTransiction transiction = em.getTransiction();
+// transiction.begin();
+// Query query = em.createQuery ("DELETE FROM Animal a WHERE a.name = :name")
+//query.setParameter("name");
+//int numDelete = query.executeUpdate(); // ESEGUE UNA QUERY DI AGGIORNAMENTO DEL DB
+// transiction.commit();
+// S.o.p("ho cancellato " + numDelete + "elementi");
+// }
+
+// e in APPLICATION
+// ad.findAnimalsByNameAndDelete("rex")
